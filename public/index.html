@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- viewport-fit=cover lets the layout paint into the iPhone notch / home-indicator
+     area, which the safe-area insets in app.css then pad around. Zoom is left
+     enabled on purpose: blocking it fails accessibility. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121a2b" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KitchOps">
+
+<!-- The KO brand mark. The SVG is what modern browsers use in the tab (it is
+     crisp at any size and brightens on dark chrome); the .ico and .png are
+     fallbacks for older browsers and for home-screen shortcuts. Regenerate the
+     bitmaps with `npm run build:icons` after editing favicon.svg. -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>KitchOps — Prep Kitchen Automation</title>
+<script>
+  /* No-flash theme bootstrap — must run before the stylesheet paints. */
+  (function () {
+    try {
+      var m = localStorage.getItem('kitchops.theme');
+      if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-theme', m);
+    } catch (e) { /* storage blocked: fall back to the OS preference */ }
+  })();
+</script>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+<!-- ---------------------------------------------------------------- LOGIN -->
+<div id="loginView" class="login-shell" hidden>
+  <form class="login-card" id="loginForm">
+    <div class="brand">
+      <span class="brand-mark">KO</span>
+      <div>
+        <h1>KitchOps</h1>
+        <p>Prep Kitchen Automation</p>
+      </div>
+    </div>
+    <label class="field">
+      <span>Username</span>
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <p class="form-error" id="loginError" hidden></p>
+    <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>
+
+<!-- ------------------------------------------------------------ APP SHELL -->
+<div id="appView" class="app-shell" hidden>
+  <header class="topbar">
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <span class="brand-mark small">KO</span>
+    <strong class="topbar-title">KitchOps</strong>
+    <!-- Identity, appearance, password and sign out live on the Account page,
+         reached from the sidebar, so the topbar stays out of the way. -->
+  </header>
+
+  <!-- Tapping the dimmed page closes the drawer on a phone. -->
+  <div class="nav-backdrop" id="navBackdrop"></div>
+
+  <div class="body-grid">
+    <nav class="sidebar" id="sidebar"></nav>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<div id="toastHost" class="toast-host"></div>
+<div id="modalHost" class="modal-host" hidden></div>
+
+<script src="/js/theme.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/pages/dashboard.js"></script>
+<script src="/js/pages/users.js"></script>
+<script src="/js/pages/credentials.js"></script>
+<script src="/js/pages/account.js"></script>
+<script src="/js/pages/stations.js"></script>
+<script src="/js/pages/locations.js"></script>
+<script src="/js/pages/recipes.js"></script>
+<script src="/js/pages/counter.js"></script>
+<script src="/js/pages/masters.js"></script>
+<script src="/js/pages/mytasks.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
